@@ -1,0 +1,25 @@
+<html>
+<head>
+<meta charset = "UTF-8"
+<title>  </title>
+</head>
+<body>
+<table border = 1>
+	
+	<tr>
+		<td> <b>Name</b> </td>
+		<td> <b>Password</b> </td>
+		<td> <b>Email</b> </td>
+		<td> <b>Image</b></td>
+	</tr>
+	{% for user in userDetails %}
+	<tr>
+		<td> {{user[0]}} </td>
+		<td> {{user[1]}} </td>
+		<td> {{user[2]}} </td>
+		<td> {{user[3]}} </td>
+	</tr>
+	{% endfor %}
+</table>
+</body>
+</html>

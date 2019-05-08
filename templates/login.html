@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Upload</title>
+</head>
+<body>
+<form method=POST enctype=multipart/form-data action="{{ url_for('upload_FID') }}">
+    <p>Username:<input type =text name = name><br></p>
+    <input type=file name=photo>
+    <input type="submit">
+    <p> <font color="black"> <a href="loginemail">Login Using Email </a>
+            </p> </font>
+</form>
+</body>
+</html>
+
+

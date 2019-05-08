@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" type="text/css" href="/static/css/brfv4_examples_theme.css">
+	<title>Face Tracking by Bottle</title>
+
+	<script src="/static/js/libs/createjs/preloadjs.min.js"></script>
+	<script src="/static/js/BRFv4Demo.js"></script>
+
+	<script>
+		window.onload = brfv4Example.start; 
+	</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+
+    <style type="text/css">
+
+        #results { padding:20px; border:1px solid; background:#ccc; }
+
+    </style>
+
+
+</head>
+
+
+<body>
+	
+<div id = "content1">
+			<h2 align="center">Face Map</h2>
+			<p align= "center">Facial Tracking by Bottle </p>
+			<div>
+				<video id="videoel" width="400" height="300" preload="auto" loop playsinline autoplay>
+				</video>
+				<canvas id="overlay" width="400" height="300"></canvas>
+
+	</div>
+	
+	<div id = "_content">
+		<video  id="_webcam" playsinline></video>
+		<canvas id="_imageData"></canvas>
+		<canvas id="_faceSub"></canvas>
+		<canvas id="_t3d"></canvas>
+		<canvas id="_f3d"></canvas>
+		<canvas id="_drawing"></canvas>
+		<div id="_stats"></div>
+		<div id="_progressBar"></div>
+
+	</div>
+
+	<!-- Stream video via webcam -->
+<div class="container">
+
+    <form method="POST" action="storeImage.php">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div></div>
+
+                <br/>
+
+                <input type=button value="Take Snapshot" onClick="take_snapshot()">
+
+                <input type="hidden" name="image" class="image-tag">
+
+            </div>
+
+            <div class="col-md-12 text-center">
+
+                <br/>
+
+                <button class="btn btn-success">Submit</button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+  
+
+<!-- Configure a few settings and attach camera -->
+
+<script language="JavaScript">
+
+    Webcam.set({
+
+        width: 490,
+
+        height: 390,
+
+        image_format: 'jpeg',
+
+        jpeg_quality: 90
+
+    });
+
+  
+
+    Webcam.attach( '#my_camera' );
+
+  
+
+    function take_snapshot() {
+
+        Webcam.snap( function(data_uri) {
+
+            $(".image-tag").val(data_uri);
+
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+
+        } );
+
+    }
+
+</script>
+
+
+<div>
+	<form  method="POST" action="" enctype="multipart/form-data">
+    <p22>Register: </p22> </br>
+    <p>Username: <input type="text" name="name"> </p>
+    <p>Password: <input type ="password" name ="password"> </p>
+    <p>Email: <input type="text" name="email"> </p>
+    Capture<input type="file" accept="image/*;capture=camera">
+
+
+    <input type="Submit" value="Submit" > </br> </br>
+    <p23> Already a member? 
+        <a href="login">Click to Login </a>
+    </p23>
+
+</form>
+</div>
+</body>
+</html>

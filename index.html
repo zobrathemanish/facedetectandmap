@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+
+	<link rel="stylesheet" type="text/css" href="css/brfv4_examples_theme.css">
+	<title>Beyond Reality Face - BRFv4 - HTML5/Javascript face tracking</title>
+
+	<script src="/static/js/libs/createjs/preloadjs.min.js"></script>
+	<script src="/static/js/BRFv4Demo.js"></script>
+
+	<script>
+		window.onload = brfv4Example.start; //see js/BRFv4Demo.js
+	</script>
+
+</head>
+
+<body>
+
+<div id="_wrapper">
+
+	<div id="_content">
+		<video  id="_webcam" playsinline></video>
+		<canvas id="_imageData"></canvas>
+		<canvas id="_faceSub"></canvas>
+		<canvas id="_t3d"></canvas>
+		<canvas id="_f3d"></canvas>
+		<canvas id="_drawing"></canvas>
+	</div>
+
+	<div id="_subline"></div>
+
+<div id="_settingsRight"></div>
+
+</body>
+
+</html>
