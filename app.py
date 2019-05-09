@@ -51,33 +51,6 @@ application.config['MYSQL_DB'] = db['mysql_db']
 
 mysql = MySQL(application)
 
-
-@application.route('/index', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        #fetch form data
-        userDetails = request.form
-        name = userDetails['name']
-        password = userDetails['password']
-        email = userDetails['email']
-        photo = request.files['photo']
-        fullpath = photo.filename
-        full_filename = ''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
-        photo.save(secure_filename(full_filename))
-        cur = mysql.connection.cursor()
-        x = cur.execute("SELECT photo FROM users WHERE name =%s", [name])
-        if int(x)>0:
-            flash("Username taken")
-            print "Username taken"
-            return render_template("usernametaken.html")
-        else:
-            cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,full_filename))
-        mysql.connection.commit()
-        cur.close()
-        return redirect ('/users')
-
-    return render_template('landing2.html')
-
 @application.route('/login')
 def login():
     return render_template('login.html')
@@ -149,8 +122,31 @@ def test():
     return render_template('userdatabaselist.html',userDetails = userDetails)
 
 @application.route('/', methods=['GET', 'POST'])
-def landing():
+def signup():
+    if request.method == 'POST':
+        #fetch form data
+        userDetails = request.form
+        name = userDetails['name']
+        password = userDetails['password']
+        email = userDetails['email']
+        photo = request.files['photo']
+        fullpath = photo.filename
+        full_filename = ''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
+        photo.save(secure_filename(full_filename))
+        cur = mysql.connection.cursor()
+        x = cur.execute("SELECT photo FROM users WHERE name =%s", [name])
+        if int(x)>0:
+            flash("Username taken")
+            #print "Username taken"
+            return render_template("usernametaken.html")
+        else:
+            cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,full_filename))
+        mysql.connection.commit()
+        cur.close()
+        return redirect ('/users')
+
     return render_template('index.html')
+
 #@application.route('/', methods=['GET', 'POST'])
 #def landing():
  #   return render_template('clm_emotiondetection.html')
