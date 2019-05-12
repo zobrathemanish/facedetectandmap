@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from PIL import Image, ExifTags, ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -67,14 +67,14 @@ def signup():
         cur = mysql.connection.cursor()
         x = cur.execute("SELECT photo FROM users WHERE name =%s", [name])
         if int(x)>0:
-            flash("Username taken")
+            #flash("Username taken")
             print "Username taken"
             return render_template("usernametaken.html")
         else:
             cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,full_filename))
         mysql.connection.commit()
         cur.close()
-        return redirect ('/users')
+        return redirect('/users')
 
     return render_template('landing2.html')
 
