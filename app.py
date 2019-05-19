@@ -70,8 +70,9 @@ def signup():
         #fetch form data
         userDetails = request.form
         name = userDetails['name']
-        password = userDetails['password']
         email = userDetails['email']
+        contact = userDetails['contact']
+        location = userDetails['location']
         photo = request.files['photo']
         base64img = userDetails['base64img']
 
@@ -87,7 +88,7 @@ def signup():
             print "Username taken"
             return render_template("usernametaken.html")
         else:
-            cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,filename))
+            cur.execute("INSERT INTO users(name,email,contact,location,photo) VALUES(%s, %s, %s, %s, %s)",(name,email,contact,location,filename))
         mysql.connection.commit()
         cur.close()
         return redirect('/users')
@@ -179,5 +180,3 @@ if __name__ == '__main__':
   context = ('ssl/cert.pem', 'ssl/privkey.pem')
   SSLify(application)
   application.run(debug=True, port=8080, host="0.0.0.0", ssl_context=context)
-
-

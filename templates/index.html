@@ -9,16 +9,9 @@
 
 	<script src="/static/js/libs/createjs/preloadjs.min.js"></script>
 	<script src="/static/js/BRFv4Demo.js"></script>
-	<script src="/static/js/download.js"></script>
 
 	<script>
-		window.onload = brfv4Example.start;
-
-		// window.onload = function(e){
-		// 	setInterval(function() {
-		// 		take_snapshot()
-		// 	}, 5000);
-		// };
+		window.onload = brfv4Example.start; 
 	</script>
 
 
@@ -50,22 +43,13 @@
 
 	function take_snapshot() {
 		// take snapshot and get image data
-		console.log("Snapping");
 		Webcam.snap( function(data_uri) {
 			// display results in page
 
 			document.getElementById("base64img").value = data_uri
 		} );
 	}
-
-
-
-
 </script>
-
-
-
-
 
 <div id = "content1">
 			<h2 align="center">Face Map</h2>
@@ -93,16 +77,17 @@
 	<form  method="POST" action="/index" enctype="multipart/form-data">
     <p22>Register: </p22> </br>
     <p>Username: <input type="text" name="name"> </p>
-    <p>Password: <input type ="password" name ="password"> </p>
     <p>Email: <input type="text" name="email"> </p>
 		<input type="hidden" name="base64img" id="base64img">
 
-    <p>Image: <input type=file name="photo"> </p> 
+    <p>Contact: <input type ="text" name ="contact"> </p>
+    <p>Location: <input type ="text" name ="location"> </p>
+    <p>Image: <input type=file name="photo"> </p>
 
 
         <input type="Submit" value="Submit"  onclick="take_snapshot()"> </br> </br>
     <p23> Already a member? 
-        <a href="login">Click to Login </a> lick to Login </a>
+        <a href="login">Click to Login </a>
     </p23>
 </form>
 </div>
