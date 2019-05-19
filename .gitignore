@@ -14,4 +14,4 @@ static/img/*
 *.PNG
 *.jpg
 *.jpeg
-
+db.yaml
