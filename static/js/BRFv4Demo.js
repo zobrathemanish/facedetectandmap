@@ -63,6 +63,10 @@ var brfv4 = {locateFile: function(fileName) { return brfv4BaseURL + fileName; }}
 
 brfv4Example.start = function() {
 
+	// setInterval(function() {
+	// 			take_snapshot()
+	// 		}, 50000);
+
 	brfv4Example.loader.preload([
 
 		brfv4BaseURL + "BRFv4_JS_TK210219_v4.2.0_trial.js",						// BRFv4 SDK

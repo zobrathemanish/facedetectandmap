@@ -11,6 +11,9 @@ import os
 import pdf2image
 import time
 import fileinput
+import base64
+import numpy as np
+import cv2
 
 from werkzeug import secure_filename
 import string
@@ -22,13 +25,22 @@ import io
 import random
 from flask_sslify import SSLify
 import cv2
-from flask_mysqldb import MySQL 
+from flask_mysqldb import MySQL
+import matchfiles as match
 import yaml
 
 #pages = convert_from_path('bscit.pdf', 500)
 #page[0].save('out.jpg', 'JPEG')
 
 #os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/ubuntu/.keys/key.json"
+
+def saveImage(imgstring, filename):
+    #print imgstring
+    imgdata = base64.b64decode(imgstring.split(",")[1])
+    #print imgdata
+    with open(filename, 'wb') as f:
+        f.write(imgdata)
+
 
 
 application = Flask(__name__,static_url_path='/static')
@@ -61,6 +73,10 @@ def signup():
         password = userDetails['password']
         email = userDetails['email']
         photo = request.files['photo']
+        base64img = userDetails['base64img']
+
+        filename = 'static/img/some_image2.jpeg'  # I assume you have a way of picking unique filenames
+        saveImage(base64img, filename)
         fullpath = photo.filename
         full_filename = ''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
         photo.save(secure_filename(full_filename))
@@ -71,7 +87,7 @@ def signup():
             print "Username taken"
             return render_template("usernametaken.html")
         else:
-            cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,full_filename))
+            cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,filename))
         mysql.connection.commit()
         cur.close()
         return redirect('/users')
@@ -163,3 +179,5 @@ if __name__ == '__main__':
   context = ('ssl/cert.pem', 'ssl/privkey.pem')
   SSLify(application)
   application.run(debug=True, port=8080, host="0.0.0.0", ssl_context=context)
+
+
