@@ -58,8 +58,9 @@ def signup():
         #fetch form data
         userDetails = request.form
         name = userDetails['name']
-        password = userDetails['password']
         email = userDetails['email']
+        contact = userDetails['contact']
+        location = userDetails['location']
         photo = request.files['photo']
         fullpath = photo.filename
         full_filename = ''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
@@ -71,7 +72,7 @@ def signup():
             print "Username taken"
             return render_template("usernametaken.html")
         else:
-            cur.execute("INSERT INTO users(name,password,email,photo) VALUES(%s, %s, %s, %s)",(name,password,email,full_filename))
+            cur.execute("INSERT INTO users(name,email,contact,location,photo) VALUES(%s, %s, %s, %s, %s)",(name,email,contact,location,fullpath))
         mysql.connection.commit()
         cur.close()
         return redirect('/users')
@@ -155,9 +156,20 @@ def landing():
 #def landing():
  #   return render_template('clm_emotiondetection.html')
 
-@application.route('/facemap', methods=['GET', 'POST'])
+@application.route('/emotion', methods=['GET', 'POST'])
 def facemap():
-    return render_template('index.html')
+    return render_template('clm_emotiondetection.html')
+
+@application.route('/imageemotion', methods=['GET', 'POST'])
+def imageemotion():
+    return render_template('image.html')
+
+@application.route('/photo', methods=['GET','POST'])
+def photo():
+    if request.method == 'POST':
+        return jsonify(request.form['userID'], request.form['file'])
+    return render_template('signup.html')
+
 
 if __name__ == '__main__':
   context = ('ssl/cert.pem', 'ssl/privkey.pem')

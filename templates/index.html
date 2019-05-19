@@ -50,6 +50,17 @@
 
 <!-- Code to handle taking the snapshot and displaying it locally -->
 <script language="JavaScript">
+	function ShowCam() {
+    Webcam.set({
+        width: 320,
+        height: 240,
+        image_format: 'jpeg',
+        jpeg_quality: 100
+    });
+    Webcam.attach('#my_camera');
+}
+window.onload= ShowCam;
+
 	function take_snapshot() {
 		// take snapshot and get image data
 		Webcam.snap( function(data_uri) {
@@ -57,13 +68,30 @@
 			document.getElementById('results').innerHTML =
 					'<h2>Here is your image:</h2>' +
 					'<img src="'+data_uri+'"/>';
-		} );
 	}
+
+	function upload() {
+    console.log("Uploading...")
+    var image = document.getElementById('image').src;
+    var form = document.getElementById('myForm');
+    var formData = new FormData(form);
+    formData.append("file", image);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/photo");
+
+    // check when state changes, 
+    xmlhttp.onreadystatechange = function() {
+
+    if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        alert(xmlhttp.responseText);
+        }
+    }
+
+    xmlhttp.send(formData);
+    console.log(formData.get('file'));
+    console.log(formData.get('userID'));
+}
 </script>
-
-
-
-
 
 <div id = "content1">
 			<h2 align="center">Face Map</h2>
@@ -91,15 +119,15 @@
 	<form  method="POST" action="/index" enctype="multipart/form-data">
     <p22>Register: </p22> </br>
     <p>Username: <input type="text" name="name"> </p>
-    <p>Password: <input type ="password" name ="password"> </p>
     <p>Email: <input type="text" name="email"> </p>
-
+    <p>Contact: <input type ="text" name ="contact"> </p>
+    <p>Location: <input type ="text" name ="location"> </p>
     <p>Image: <input type=file name="photo"> </p> 
 
 
         <input type="Submit" value="Submit" > </br> </br>
     <p23> Already a member? 
-        <a href="login">Click to Login </a> lick to Login </a>
+        <a href="login">Click to Login </a> 
     </p23>
 </form>
 </div>
