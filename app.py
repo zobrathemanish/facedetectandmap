@@ -73,14 +73,12 @@ def signup():
         email = userDetails['email']
         contact = userDetails['contact']
         location = userDetails['location']
-        photo = request.files['photo']
         base64img = userDetails['base64img']
 
-        filename = 'static/img/some_image2.jpeg'  # I assume you have a way of picking unique filenames
-        saveImage(base64img, filename)
-        fullpath = photo.filename
-        full_filename = ''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
-        photo.save(secure_filename(full_filename))
+        filepath = 'static/img/signups/'  # I assume you have a way of picking unique filenames
+        full_filename = filepath+''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
+        saveImage(base64img, full_filename)
+
         cur = mysql.connection.cursor()
         x = cur.execute("SELECT photo FROM users WHERE name =%s", [name])
         if int(x)>0:
@@ -88,7 +86,7 @@ def signup():
             print "Username taken"
             return render_template("usernametaken.html")
         else:
-            cur.execute("INSERT INTO users(name,email,contact,location,photo) VALUES(%s, %s, %s, %s, %s)",(name,email,contact,location,filename))
+            cur.execute("INSERT INTO users(name,email,contact,location,photo) VALUES(%s, %s, %s, %s, %s)",(name,email,contact,location,full_filename))
         mysql.connection.commit()
         cur.close()
         return redirect('/users')
@@ -112,10 +110,14 @@ def users():
 def upload_FID():
     if request.method == 'POST':
         username = request.form['name']
-        file = request.files['photo']
-        newimg = file.filename    
-        file.save(secure_filename(newimg))
+        base64img = request.form['base64img']
         cur = mysql.connection.cursor()
+
+        filepath = 'static/img/logins/'  # I assume you have a way of picking unique filenames
+        full_filename = filepath+''.join(random.choice(string.ascii_uppercase) for _ in range(5)) + '.jpg'
+        saveImage(base64img, full_filename)
+
+
         cur.execute("SELECT photo FROM users WHERE name =%s", [username])
         userDetails = cur.fetchone()
         try:
@@ -126,7 +128,7 @@ def upload_FID():
         #oldimg = userDetails[0]
         mysql.connection.commit()
         cur.close()
-        verified1 = match.verify(newimg, oldimg)
+        verified1 = match.verify(full_filename, oldimg)
         #verified = "[" + verified1.replace("}", "},", verified1.count("}")-1) + "]"
         json_data = json.loads(verified1)
         result = json.dumps({"result": json_data},sort_keys = True, indent = 4, separators = (',', ': '))
