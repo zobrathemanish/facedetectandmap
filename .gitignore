@@ -9,10 +9,11 @@ node_modules/
 facedetectandmap.iml
 *.pyc
 
-static/img/*
+static/img/signups/*
+static/img/logins/*
 *.png
 *.PNG
 *.jpg
 *.jpeg
-db.yaml
+*.yaml
 venv/*
