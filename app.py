@@ -181,4 +181,4 @@ def facemap():
 if __name__ == '__main__':
   context = ('ssl/cert.pem', 'ssl/privkey.pem')
   SSLify(application)
-  application.run(debug=True, port=8080, host="0.0.0.0", ssl_context=context)
+  application.run(debug=True, port=8000, host="0.0.0.0", ssl_context=context)
