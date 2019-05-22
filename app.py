@@ -174,9 +174,9 @@ def landing():
 #def landing():
  #   return render_template('clm_emotiondetection.html')
 
-@application.route('/facemap', methods=['GET', 'POST'])
+@application.route('/emotion', methods=['GET', 'POST'])
 def facemap():
-    return render_template('index.html')
+    return render_template('clm_emotiondetection.html')
 
 if __name__ == '__main__':
   context = ('ssl/cert.pem', 'ssl/privkey.pem')
